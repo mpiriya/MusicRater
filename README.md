@@ -1,0 +1,2 @@
+# MusicRater
+rates music :)
