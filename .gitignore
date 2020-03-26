@@ -1,1 +1,2 @@
-playlists/*.txt
+playlists/*.csv
+.vscode
