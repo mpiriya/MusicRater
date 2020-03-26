@@ -1,25 +1,17 @@
 public class Song {
     private String title;
     private String artist;
-    private String album;
-    private Integer duration; //seconds
     private Integer rating; //0-10
     //possible additions: album image?
 
-    public Song(String title, String artist, String album, Integer duration) {
+    public Song(String title, String artist) {
         this.title = title;
         this.artist = artist;
-        this.album = album;
-        this.duration = duration;
         this.rating = 0;
     }
 
-    public Song(String title, String artist, Integer duration) {
-        this(title, artist, "(unknown)", duration);
-    }
-
-    public Song(String title, Integer duration) {
-        this(title, "(unknown)", "(unknown)", duration);
+    public Song(String title) {
+        this(title, "(unknown)");
     }
 
     public void increaseRating() {
@@ -39,8 +31,13 @@ public class Song {
         }
     }
 
+    public String[] toStringArray() {
+        String[] toReturn = {title, artist, Integer.toString(rating)};
+        return toReturn;
+    }
+
     public String toString() {
-        return title + " (" + duration + ") by " + artist + " Album: " + album; 
+        return title + " by " + artist;
     }
 
     public String title() {
@@ -51,24 +48,12 @@ public class Song {
         return this.artist;
     }
 
-    public String album() {
-        return this.album;
-    }
-
-    public Integer duration() {
-        return this.duration;
-    }
-
     public Integer rating() {
         return this.rating;
     }
 
     public void setartist(String artist) {
         this.artist = artist;
-    }
-
-    public void setalbum(String album) {
-        this.album = album;
     }
 
     public void setrating(Integer rating) {

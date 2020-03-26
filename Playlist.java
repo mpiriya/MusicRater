@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import com.opencsv.*;
 
 public class Playlist {
 	private ArrayList<Song> songs;
@@ -33,10 +34,13 @@ public class Playlist {
 				f.createNewFile();
 			}
 			FileWriter fw = new FileWriter(f);
+			CSVWriter cw = new CSVWriter(fw);
+			List<String[]> data = new ArrayList<String[]>();
 			for(Song s : songs) {
-				fw.write(s + "\n");
+				data.add(s.toStringArray());
 			}
-			fw.close();
+			cw.writeAll(data);
+			cw.close();
 			
 		} catch(IOException e) {
 			e.printStackTrace();
@@ -44,37 +48,42 @@ public class Playlist {
 	}
 
 	public static Playlist fileToPlaylist(File file) {
-		Playlist toReturn = new Playlist(file.getName().substring(0, file.getName().indexOf(".txt")));
+		Playlist toReturn = new Playlist(file.getName().substring(0, file.getName().indexOf(".csv")));
 		try {
-			
 			if(file.exists()) {
-				Scanner sc = new Scanner(file);
-				String line;
-				while(sc.hasNextLine()) {
-					line = sc.nextLine();
+				FileReader fr = new FileReader(file);
+				CSVReader csvReader = new CSVReader(fr);
+				String[] nextLine;
+				while((nextLine = csvReader.readNext()) != null) {
+					Song toAdd = new Song(nextLine[0], nextLine[1]);
+					System.out.print(nextLine[0]);
+					try {
+						toAdd.setrating(Integer.parseInt(nextLine[2]));
+					} catch (Exception e) {
+						
+					}
+					toReturn.addSong(toAdd);
 				}
-				sc.close();
+				System.out.println();
+				csvReader.close();
 			}
 			return toReturn;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return toReturn;
 	}
 
+	public String toString() {
+		String toReturn = "";
+		for(Song s : songs) {
+			toReturn += s.toString() + "\n";
+		}
+		return toReturn;
+	}
+
 	public static void main(String[] args) {
-		Song s = new Song("hello", 123);
-		Song q = new Song("goodbye", 234);
-		Song p = new Song("hello again", 345);
-
-		Playlist myPL = new Playlist("sick jams");
-		myPL.addSong(s);
-		myPL.addSong(q);
-		myPL.addSong(p);
-
-		myPL.playlistToFile();
-		myPL.addSong(new Song("fart", 456));
-		myPL.playlistToFile();
+		Playlist pl = Playlist.fileToPlaylist(new File("playlists/MattyPslaps.csv"));
+		System.out.println(pl.name + " " + pl.songs.size());
 	}
 }
