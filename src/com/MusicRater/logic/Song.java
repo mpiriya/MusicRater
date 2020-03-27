@@ -1,3 +1,5 @@
+package src.com.MusicRater.logic;
+
 public class Song {
     private String title;
     private String artist;
@@ -50,10 +52,6 @@ public class Song {
 
     public Integer rating() {
         return this.rating;
-    }
-
-    public void setartist(String artist) {
-        this.artist = artist;
     }
 
     public void setrating(Integer rating) {

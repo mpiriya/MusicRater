@@ -1,3 +1,5 @@
+package src.com.MusicRater.logic;
+
 import java.io.*;
 import java.util.*;
 import com.opencsv.*;
@@ -84,6 +86,5 @@ public class Playlist {
 
 	public static void main(String[] args) {
 		Playlist pl = Playlist.fileToPlaylist(new File("playlists/MattyPslaps.csv"));
-		System.out.println(pl.name + " " + pl.songs.size());
 	}
 }
